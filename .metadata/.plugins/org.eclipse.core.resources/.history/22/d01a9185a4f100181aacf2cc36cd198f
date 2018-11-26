@@ -1,0 +1,58 @@
+package GraphLib;
+
+import java.util.ArrayList;
+
+public class Graph {
+	protected ArrayList<Vertex> vertices; 
+	protected ArrayList<Edge> edges; 
+
+	public String getLibraryName(){
+		return this.getClass().getPackage().getName();
+	}
+	public String getLibraryVersion(){
+		return this.getClass().getPackage().getSpecificationVersion();
+	}
+	// the following method adds a vertex to the graph
+	public void insertVertex(StringBuffer strUniqueID,StringBuffer strData,int nX,int nY) throws GraphException {
+		Vertex vertex = new Vertex();
+		vertex._strUniqueID = strUniqueID;
+		vertex._strData = strData;
+		vertex._nX = nX;
+		vertex._nY = nY;
+		this.vertices.add(vertex);
+	}
+	// inserts an edge between 2 specified vertices
+	public void insertEdge(StringBuffer strVertex1UniqueID,
+			 StringBuffer strVertex2UniqueID,
+			 StringBuffer strEdgeUniqueID,
+			 StringBuffer strEdgeData,
+			 int nEdgeCost) throws GraphException {
+	Edge edge = new Edge();
+	edge._strData = strEdgeData;
+	edge._strUniqueID = strEdgeUniqueID;
+	edge._nEdgeCost = nEdgeCost;
+	edge.Start._strUniqueID=strVertex1UniqueID;
+	edge.End._strUniqueID=strVertex2UniqueID;
+	
+	}
+	
+	// removes vertex and its incident edges [1 pt]
+	public void removeVertex(String strVertexUniqueID) throws
+	 GraphException{
+		
+	}
+
+	// removes an edge from the graph [1 pt]
+	public void removeEdge(String strEdgeUniqueID) throws
+	 GraphException {
+		
+	}
+	
+	public static void main(String[] args) {
+		Graph G = new Graph();
+		System.out.println(G.getLibraryName());
+		System.out.println(G.getLibraryVersion());
+
+	}
+}
+

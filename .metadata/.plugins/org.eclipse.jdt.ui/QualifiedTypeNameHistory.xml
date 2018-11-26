@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="GraphLib.Graph"/>
+<fullyQualifiedTypeName name="GraphLib.Vertex"/>
+<fullyQualifiedTypeName name="GraphLib.Edge"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.Vector"/>
+</qualifiedTypeNameHistroy>

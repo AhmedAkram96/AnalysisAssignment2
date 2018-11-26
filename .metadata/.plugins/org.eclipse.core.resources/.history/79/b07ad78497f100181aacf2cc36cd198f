@@ -1,0 +1,17 @@
+package GraphLib;
+
+public class Graph {
+	public String getLibraryName(){
+		return this.getClass().getPackage().getName();
+	}
+	public String getLibraryVersion(){
+		return this.getClass().getPackage().getImplementationVersion();
+	}
+	public static void main(String[] args) {
+		Graph G = new Graph();
+		System.out.println(G.getLibraryName());
+		System.out.println(G.getLibraryVersion()());
+
+	}
+}
+

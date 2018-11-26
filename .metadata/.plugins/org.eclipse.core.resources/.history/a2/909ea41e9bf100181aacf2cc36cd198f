@@ -1,0 +1,22 @@
+package GraphLib;
+
+public class Graph {
+	public String getLibraryName(){
+		return this.getClass().getPackage().getName();
+	}
+	public String getLibraryVersion(){
+		return this.getClass().getPackage().getSpecificationVersion();
+	}
+	// the following method adds a vertex to the graph [2 pts]
+	public void insertVertex(StringBuffer strUniqueID,StringBuffer strData,int nX,int nY) throws GraphException {
+		Vertex vertex = new Vertex(strUniqueID, strData, nX, nY );
+	}
+	
+	public static void main(String[] args) {
+		Graph G = new Graph();
+		System.out.println(G.getLibraryName());
+		System.out.println(G.getLibraryVersion());
+
+	}
+}
+
