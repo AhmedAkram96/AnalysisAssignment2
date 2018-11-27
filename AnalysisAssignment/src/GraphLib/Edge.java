@@ -9,6 +9,10 @@ public class Edge {
 	 protected int _nEdgeCost;			 // cost of traversing this edge
 	 protected Vertex Start,End;
 	 
+	 public Edge() {
+		 this.Start = new Vertex();
+		 this.End = new Vertex();
+	 }
 	 public StringBuffer getUniqueID( ){
 	return _strUniqueID;
 	 }
