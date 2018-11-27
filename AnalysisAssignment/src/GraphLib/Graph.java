@@ -54,7 +54,7 @@ public class Graph {
 			if(vertices.get(j)._strUniqueID==strVertex2UniqueID)
 				EndVertex = vertices.get(j);
 		}
-		for(int c = 0;c<adj.size();c++) {
+		for(int c = 0;c<adj.size();c++) {		// For every vertex of the edge,add it to the list of the opposite vertex.
 			if(adj.get(c).get(0)._strUniqueID.toString().equals(strVertex1UniqueID.toString())) {
 				for(int loopVerticies = 0; loopVerticies<vertices.size();loopVerticies++) {
 					if(vertices.get(loopVerticies)._strUniqueID.toString().equals(strVertex2UniqueID.toString())) {
@@ -83,14 +83,43 @@ public class Graph {
 			if(edges.get(i).End._strUniqueID==strVertexUniqueID || edges.get(i).Start._strUniqueID==strVertexUniqueID)
 				edges.remove(i);
 		}
+		for(int i =0 ; i <adj.size() ; i++){
+			if(adj.get(i).get(0)._strUniqueID.toString().equals(strVertexUniqueID.toString())) {
+				adj.remove(i);
+			}
+				
+			}
+		
 	}
 
 	// removes an edge from the graph 
 	public void removeEdge(StringBuffer strEdgeUniqueID) throws
 	GraphException {
+		StringBuffer TempForStart = null;
+		StringBuffer TempForEnd = null;
 		for(int i =0 ; i <edges.size() ; i++){
-			if(edges.get(i)._strUniqueID==strEdgeUniqueID)
+			if(edges.get(i)._strUniqueID.toString().equals(strEdgeUniqueID.toString())) {
+				TempForEnd = edges.get(i).End._strUniqueID;
+				TempForStart = edges.get(i).Start._strUniqueID;
 				edges.remove(i);
+				
+			}
+		}
+		for(int loopAllAdj = 0;loopAllAdj<adj.size();loopAllAdj++) {
+			if(adj.get(loopAllAdj).get(0)._strUniqueID.toString().equals(TempForStart.toString())) {
+				for(int i =0;i<adj.get(loopAllAdj).size();i++) {
+					if(adj.get(loopAllAdj).get(i)._strUniqueID.toString().equals(TempForEnd.toString())) {
+						adj.get(loopAllAdj).remove(i);
+					}
+				}
+			}
+			if(adj.get(loopAllAdj).get(0)._strUniqueID.toString().equals(TempForEnd.toString())) {
+				for(int i =0;i<adj.get(loopAllAdj).size();i++) {
+					if(adj.get(loopAllAdj).get(i)._strUniqueID.toString().equals(TempForStart.toString())) {
+						adj.get(loopAllAdj).remove(i);
+					}
+				}
+			}
 		}
 	}
 	// returns a vector of edges incident to vertex whose
@@ -185,9 +214,9 @@ public class Graph {
 
 		
 		G.insertEdge(new StringBuffer("3"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
 
-
+		G.removeEdge(new StringBuffer("1"));
 		System.out.println(G);
 		//System.out.println(G.getLibraryVersion());
 
