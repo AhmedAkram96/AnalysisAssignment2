@@ -8,12 +8,6 @@ public class Graph {
 	protected ArrayList<Edge> edges; 
 protected ArrayList<ArrayList<Vertex>> adj; //new
 static int i =0;  		//new
-
-public Graph(ArrayList<Vertex> vertices,ArrayList<Edge> edges, ArrayList<ArrayList<Vertex>> adj){
-this.vertices=vertices;
-this.edges=edges;
-this.adj=adj;
-}
 	public String getLibraryName(){
 		return this.getClass().getPackage().getName();
 	}
@@ -149,12 +143,7 @@ this.adj=adj;
 	}
 	
 	public static void main(String[] args) throws GraphException {
-		
-		ArrayList<Vertex> vertices = new ArrayList<Vertex>(); 
-		ArrayList<Edge> edges = new ArrayList<Edge>(); 
-	ArrayList<ArrayList<Vertex>> adj= new ArrayList<ArrayList<Vertex>>(); //new
-	
-		Graph G = new Graph(vertices, edges,adj);
+		Graph G = new Graph();
 		
 		
 			G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),1, 0);
