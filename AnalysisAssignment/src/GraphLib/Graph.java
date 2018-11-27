@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class Graph {
+	private static final Visitor Visitor = null;
 	protected ArrayList<Vertex> vertices = new ArrayList<>(); 
 	protected ArrayList<Edge> edges = new ArrayList<>();
 	protected ArrayList<ArrayList<Vertex>> adj = new ArrayList<>(); //new
@@ -183,10 +184,49 @@ public class Graph {
 			vertex = edge.End;
 		return vertex;
 	}
-	public void dfs(StringBuffer strStartVertexUniqueID,
-			Visitor visitor) throws GraphException {
-
-
+	public void DFSUtil(int x, Visitor visitor) 
+    { 
+		adj.get(x).get(0).visited=true;  //assign the vertex as visited
+		visitor.visit(adj.get(x).get(0)); //visit the vertex
+		System.out.println(adj.get(x).get(0)._strUniqueID);
+    for(int k =1 ; k < adj.get(x).size(); k++){
+    	if(adj.get(x).get(k).visited==false)
+    	{
+    		//assign the edge as visited
+    		for(int z= 0; z<edges.size(); z++){
+    			if(adj.get(x).get(0)._strUniqueID==edges.get(z).Start._strUniqueID
+    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).End._strUniqueID		
+    			||
+    			adj.get(x).get(0)._strUniqueID==edges.get(z).End._strUniqueID
+    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).Start._strUniqueID){
+    				visitor.visit(edges.get(z));
+    			}
+    		}
+    		for(int j = 0 ; j<adj.size(); j++){
+    			if(adj.get(x).get(k)._strUniqueID==adj.get(j).get(0)._strUniqueID)	    		
+    				DFSUtil(j,visitor);
+    		}
+    	}
+    }
+        } 
+	public void dfs(StringBuffer strStartVertexUniqueID, Visitor visitor) throws GraphException {
+	
+    
+		Vertex x =  new Vertex();
+		int n =0;
+		
+		for(n=0 ; n <vertices.size() ; n++){
+			if(vertices.get(n)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){			
+			x=vertices.get(n) ;
+			break;
+			}
+		}
+    	   if(x.visited==false){ 
+    		   DFSUtil(n,visitor);
+  
+      }
+       
+       
 	}
     public String toString(){
         String result = "";
@@ -213,10 +253,12 @@ public class Graph {
 
 
 		
-		G.insertEdge(new StringBuffer("3"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("1"), new StringBuffer("3"), new StringBuffer("1"), new StringBuffer("1"), 1);
 		G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
 
-		G.removeEdge(new StringBuffer("1"));
+		//G.removeEdge(new StringBuffer("1"));
+		GradingVisitor visitor =  new GradingVisitor();
+		G.dfs(new StringBuffer("2") , visitor);
 		System.out.println(G);
 		//System.out.println(G.getLibraryVersion());
 

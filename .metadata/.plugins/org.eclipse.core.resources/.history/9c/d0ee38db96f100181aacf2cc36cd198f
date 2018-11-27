@@ -1,7 +1,0 @@
-package GraphLib;
-
-public class Graph {
-	public String getLibraryName(){
-		return this.getClass().getPackage().getName();
-	}
-}
