@@ -17,13 +17,11 @@ static int i =0;  		//new
 	// the following method adds a vertex to the graph
 	public void insertVertex(StringBuffer strUniqueID,StringBuffer strData,int nX,int nY) throws GraphException {
 		Vertex vertex = new Vertex();
-		//System.out.println(vertices);
 		vertex._strUniqueID = strUniqueID;
 		vertex._strData = strData;
 		vertex._nX = nX;
 		vertex._nY = nY;
-		//System.out.println(vertex);
-		vertices.add(vertex);
+		this.vertices.add(vertex);
 		adj.get(i).add(vertex);
 		i++;
 		
@@ -142,24 +140,27 @@ static int i =0;  		//new
 		
 	}
 	
-	public static void main(String[] args) throws GraphException {
+	public static void main(String[] args) {
 		Graph G = new Graph();
 		
-		
+		try {
 			G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),1, 0);
+		} catch (GraphException e) {
+			e.printStackTrace();
+		}
+		try {
 			G.insertVertex(new StringBuffer("2"), new StringBuffer("1"),1, 0);
+		} catch (GraphException e) {
+			e.printStackTrace();
+		}
+		try {
 			G.insertVertex(new StringBuffer("3"), new StringBuffer("1"),1, 0);
-
-		
+		} catch (GraphException e) {
+			e.printStackTrace();
+		}
 		G.insertEdge(new StringBuffer("3"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
-
-		
-		System.out.println(G.adj.get(1).get(0));
-		System.out.println(G.adj.get(2).get(0));
-		System.out.println(G.adj.get(3).get(0));
-
-		//System.out.println(G.getLibraryVersion());
+		System.out.println(G.getLibraryName());
+		System.out.println(G.getLibraryVersion());
 
 	}
 }

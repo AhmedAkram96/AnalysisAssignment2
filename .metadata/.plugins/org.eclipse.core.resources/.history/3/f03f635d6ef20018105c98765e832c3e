@@ -17,12 +17,11 @@ static int i =0;  		//new
 	// the following method adds a vertex to the graph
 	public void insertVertex(StringBuffer strUniqueID,StringBuffer strData,int nX,int nY) throws GraphException {
 		Vertex vertex = new Vertex();
-		//System.out.println(vertices);
 		vertex._strUniqueID = strUniqueID;
 		vertex._strData = strData;
 		vertex._nX = nX;
 		vertex._nY = nY;
-		//System.out.println(vertex);
+		System.out.println(vertex._strData);
 		vertices.add(vertex);
 		adj.get(i).add(vertex);
 		i++;

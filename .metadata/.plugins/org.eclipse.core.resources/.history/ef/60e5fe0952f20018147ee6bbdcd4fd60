@@ -7,6 +7,7 @@ public class Vertex {
 	 protected int _nX,_nY;					//Coordinates of vertex on some
 	 										//map. Assume 0,0 is
 	 										//bottom left
+	 
 	 public StringBuffer getUniqueID( ){
 		 return _strUniqueID;
 		  }
