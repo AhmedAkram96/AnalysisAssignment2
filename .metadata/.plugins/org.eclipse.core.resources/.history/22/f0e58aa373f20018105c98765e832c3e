@@ -30,7 +30,6 @@ this.adj=adj;
 		vertex._nY = nY;
 		//System.out.println(vertex);
 		vertices.add(vertex);
-		adj.add(new ArrayList<Vertex>());
 		adj.get(i).add(vertex);
 		i++;
 		
