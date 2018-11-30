@@ -354,7 +354,7 @@ public class Graph {
 
 		G.insertEdge(new StringBuffer("A"), new StringBuffer("B"), new StringBuffer("1"), new StringBuffer("1"), 1);
 		G.insertEdge(new StringBuffer("B"), new StringBuffer("D"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("C"), new StringBuffer("D"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("D"), new StringBuffer("C"), new StringBuffer("1"), new StringBuffer("1"), 1);
 		G.insertEdge(new StringBuffer("A"), new StringBuffer("E"), new StringBuffer("1"), new StringBuffer("1"), 1);
 		//G.insertEdge(new StringBuffer("2"), new StringBuffer("5"), new StringBuffer("1"), new StringBuffer("1"), 1);
 		//G.insertEdge(new StringBuffer("4"), new StringBuffer("5"), new StringBuffer("1"), new StringBuffer("1"), 1);
