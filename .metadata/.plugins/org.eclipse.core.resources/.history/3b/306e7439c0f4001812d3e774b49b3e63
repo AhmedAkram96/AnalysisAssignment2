@@ -9,8 +9,6 @@ public class Graph {
 	protected ArrayList<Edge> edges = new ArrayList<>();
 	protected ArrayList<ArrayList<Vertex>> adj = new ArrayList<>(); //new
 	protected static int i =0;  		//new
-	protected static boolean FoundPath = false;
-	protected ArrayList<String> Traversal = new  ArrayList<>(); 
 
 	public Graph(){
 		this.adj = new ArrayList<>();
@@ -275,97 +273,9 @@ public class Graph {
    		   visitor.visit(Result.get(i));
     	   }
    	   System.out.println("Result" + " : " + visitor.getResult()); 
-   	for(int i =0;i<vertices.size();i++){
-		vertices.get(i).visited = false;
-	}
   
 
 	}
-	public Vector<PathSegment> pathDFS(
-			String strStartVertexUniqueID, String strEndVertexUniqueID)
-					throws GraphException{
-		Vertex x =  new Vertex();
-		int n =0;
-		Vector<PathSegment> res = new Vector<>();
-		for(n=0 ; n <vertices.size() ; n++){
-			if(vertices.get(n)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){			
-				x=vertices.get(n) ;
-				break;
-			}
-		}
-		if(x.visited==false){ 
-			PathDFSUtil(n, strEndVertexUniqueID,res);
-
-		}
-		for(int i =0;i<vertices.size();i++){
-			vertices.get(i).visited = false;
-		}		
-		return res;
-	}
-	public void PathDFSUtil(int x,String strEndVertexUniqueID,Vector<PathSegment> res) 
-	{ 
-		Traversal.add(vertices.get(x)._strUniqueID.toString());
-		//System.out.println(adj.get(x).get(0)._strUniqueID.toString());
-		if(adj.get(x).get(0)._strUniqueID.toString().equals(strEndVertexUniqueID.toString())){
-			FoundPath = true;
-			for(int i =0;i<Traversal.size()-1;i++){
-				PathSegment toAdd = new  PathSegment();
-				//System.out.println(Traversal.get(i));
-				String start = Traversal.get(i).toString();
-				String end = Traversal.get(i+1).toString();
-				for(int j = 0;j<edges.size();j++){
-					if(edges.get(j).Start._strUniqueID.toString().equals(start)
-							&& edges.get(j).End._strUniqueID.toString().equals(end) ){
-						
-						toAdd._edge = edges.get(j);
-						toAdd.Ma3koosa = 0;
-						
-						break;
-					}
-					if(edges.get(j).End._strUniqueID.toString().equals(start)
-							&& edges.get(j).Start._strUniqueID.toString().equals(end) ){
-						
-						toAdd._edge = edges.get(j);
-						toAdd.Ma3koosa = 1;
-						
-						break;
-					}
-						
-				}
-				for(int j = 0;j<vertices.size();j++){
-					if(vertices.get(j)._strUniqueID.toString().equals(start)){
-						toAdd._vertex = vertices.get(j);
-						//System.out.println(vertices.get(j)._strUniqueID.toString());
-						
-					}
-						
-				}
-				res.addElement(toAdd);
-			}
-			return;
-		}
-		adj.get(x).get(0).visited=true;  //assign the vertex as visited
-		for(int k =1 ; k < adj.get(x).size(); k++){
-			if(adj.get(x).get(k).visited==false)
-			{
-				for(int z= 0; z<edges.size(); z++){
-					if(adj.get(x).get(0)._strUniqueID==edges.get(z).Start._strUniqueID
-							&& adj.get(x).get(k)._strUniqueID==edges.get(z).End._strUniqueID		
-							||
-							adj.get(x).get(0)._strUniqueID==edges.get(z).End._strUniqueID
-							&& adj.get(x).get(k)._strUniqueID==edges.get(z).Start._strUniqueID){
-					}
-				}
-				for(int j = 0 ; j<adj.size(); j++){
-					if(adj.get(x).get(k)._strUniqueID.toString().equals(adj.get(j).get(0)._strUniqueID.toString()))	    		
-						if(!FoundPath)
-							PathDFSUtil(j,strEndVertexUniqueID,res);
-				}
-			}
-		}
-		Traversal.remove(Traversal.size()-1);
-
-	} 
     public String toString(){
         String result = "";
         for(int i = 0; i < adj.size(); i++){
@@ -377,13 +287,6 @@ public class Graph {
         }
         return result;
     }
-	public String PrintVectorOfPaths(Vector<PathSegment> res){
-		String ans = "";
-		for(int i =0;i<res.size();i++){
-			ans +=res.get(i).toString();
-		}
-		return ans;
-	}
 
 	public static void main(String[] args) throws GraphException {
 
@@ -412,10 +315,8 @@ public class Graph {
 		
 		//G.removeEdge(new StringBuffer("1"));
 		GradingVisitor visitor =  new GradingVisitor();
-		//G.Bfs(new StringBuffer("0") , visitor);
-		Vector<PathSegment> T = G.pathDFS("0", "5");
-		System.out.println(T);
-
+		G.dfs(new StringBuffer("0") , visitor);
+		System.out.println(G);
 		//System.out.println(G.getLibraryVersion());
 
 	}

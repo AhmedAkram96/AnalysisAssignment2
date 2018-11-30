@@ -412,10 +412,8 @@ public class Graph {
 		
 		//G.removeEdge(new StringBuffer("1"));
 		GradingVisitor visitor =  new GradingVisitor();
-		//G.Bfs(new StringBuffer("0") , visitor);
-		Vector<PathSegment> T = G.pathDFS("0", "5");
-		System.out.println(T);
-
+		G.Bfs(new StringBuffer("0") , visitor);
+		System.out.println(G);
 		//System.out.println(G.getLibraryVersion());
 
 	}
