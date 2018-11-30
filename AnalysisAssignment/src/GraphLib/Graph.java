@@ -9,7 +9,8 @@ public class Graph {
 	protected ArrayList<Edge> edges = new ArrayList<>();
 	protected ArrayList<ArrayList<Vertex>> adj = new ArrayList<>(); //new
 	protected static int i =0;  		//new
-
+	protected static boolean FoundPath = false;
+	protected ArrayList<Integer> Traversal = new  ArrayList<>();           
 	public Graph(){
 		this.adj = new ArrayList<>();
 	}
@@ -203,7 +204,7 @@ public class Graph {
     			}
     		}
     		for(int j = 0 ; j<adj.size(); j++){
-    			if(adj.get(x).get(k)	._strUniqueID==adj.get(j).get(0)._strUniqueID)	    		
+    			if(adj.get(x).get(k)._strUniqueID.toString().equals(adj.get(j).get(0)._strUniqueID.toString()))	    		
     				DFSUtil(j,visitor);
     		}
     	}
@@ -225,8 +226,66 @@ public class Graph {
     		   DFSUtil(n,visitor);
   
       }
+    	   for(int i =0;i<vertices.size();i++){
+    		   vertices.get(i).visited = false;
+    	   }
     	   System.out.println("Result" + " : " + visitor.getResult());   
 	}
+	// returns a path between start vertex and end vertex // if exists using dfs.
+	public Vector<PathSegment> pathDFS(
+	String strStartVertexUniqueID, String strEndVertexUniqueID)
+	throws GraphException{
+		Vertex x =  new Vertex();
+		int n =0;
+		
+		for(n=0 ; n <vertices.size() ; n++){
+			if(vertices.get(n)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){			
+			x=vertices.get(n) ;
+			break;
+			}
+		}
+    	   if(x.visited==false){ 
+    		   PathDFSUtil(n, strEndVertexUniqueID);
+  
+      }
+    	   for(int i =0;i<vertices.size();i++){
+    		   vertices.get(i).visited = false;
+    	   }		
+		return null;
+	}
+	public void PathDFSUtil(int x,String strEndVertexUniqueID) 
+    { 
+		Traversal.add(x);
+		//System.out.println(adj.get(x).get(0)._strUniqueID.toString());
+		if(adj.get(x).get(0)._strUniqueID.toString().equals(strEndVertexUniqueID.toString())){
+			FoundPath = true;
+			for(int i =0;i<Traversal.size();i++){
+				System.out.println(Traversal.get(i));
+			}
+			return;
+		}
+		adj.get(x).get(0).visited=true;  //assign the vertex as visited
+    for(int k =1 ; k < adj.get(x).size(); k++){
+    	if(adj.get(x).get(k).visited==false)
+    	{
+    		for(int z= 0; z<edges.size(); z++){
+    			if(adj.get(x).get(0)._strUniqueID==edges.get(z).Start._strUniqueID
+    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).End._strUniqueID		
+    			||
+    			adj.get(x).get(0)._strUniqueID==edges.get(z).End._strUniqueID
+    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).Start._strUniqueID){
+    			}
+    		}
+    		for(int j = 0 ; j<adj.size(); j++){
+    			if(adj.get(x).get(k)._strUniqueID.toString().equals(adj.get(j).get(0)._strUniqueID.toString()))	    		
+    				if(!FoundPath)
+    				PathDFSUtil(j,strEndVertexUniqueID);
+    		}
+    	}
+    }
+    Traversal.remove(Traversal.size()-1);
+    
+        } 
     public String toString(){
         String result = "";
         for(int i = 0; i < adj.size(); i++){
@@ -263,8 +322,9 @@ public class Graph {
 
 		//G.removeEdge(new StringBuffer("1"));
 		GradingVisitor visitor =  new GradingVisitor();
-		G.dfs(new StringBuffer("0") , visitor);
-		System.out.println(G);
+		//G.dfs(new StringBuffer("0") , visitor);
+		G.pathDFS("0","4");
+		//System.out.println(G);
 		//System.out.println(G.getLibraryVersion());
 
 	}
