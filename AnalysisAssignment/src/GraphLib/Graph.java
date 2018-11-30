@@ -184,34 +184,34 @@ public class Graph {
 			vertex = edge.End;
 		return vertex;
 	}
-	public void DFSUtil(int x, Visitor visitor) 
+	public void DFSUtil(int x, Visitor visitor , ArrayList <Vertex> Result) 
     { 
 		adj.get(x).get(0).visited=true;  //assign the vertex as visited
-		visitor.visit(adj.get(x).get(0)); //visit the vertex
-		System.out.println(adj.get(x).get(0)._strUniqueID);
+		Result.add(adj.get(x).get(0)); //Stack for vertices
     for(int k =1 ; k < adj.get(x).size(); k++){
     	if(adj.get(x).get(k).visited==false)
     	{
     		//assign the edge as visited
     		for(int z= 0; z<edges.size(); z++){
-    			if(adj.get(x).get(0)._strUniqueID==edges.get(z).Start._strUniqueID
-    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).End._strUniqueID		
-    			||
-    			adj.get(x).get(0)._strUniqueID==edges.get(z).End._strUniqueID
-    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).Start._strUniqueID){
-    				visitor.visit(edges.get(z));
-    			}
-    		}
+				if(adj.get(x).get(0)._strUniqueID.toString().equals(edges.get(z).Start._strUniqueID.toString())
+						&& adj.get(x).get(k)._strUniqueID.toString().equals(edges.get(z).End._strUniqueID.toString())		
+						||
+						adj.get(x).get(0)._strUniqueID.toString().equals(edges.get(z).End._strUniqueID.toString())
+						&& adj.get(x).get(k)._strUniqueID.toString().equals(edges.get(z).Start._strUniqueID.toString())){
+					visitor.visit(edges.get(z));
+				}
+			}
     		for(int j = 0 ; j<adj.size(); j++){
-    			if(adj.get(x).get(k)	._strUniqueID==adj.get(j).get(0)._strUniqueID)	    		
-    				DFSUtil(j,visitor);
+    			if(adj.get(x).get(k)._strUniqueID==adj.get(j).get(0)._strUniqueID)	    		
+    				DFSUtil(j,visitor,Result);
     		}
     	}
     }
         } 
 	public void dfs(StringBuffer strStartVertexUniqueID, GradingVisitor visitor) throws GraphException {
-	
-    
+		
+		
+		ArrayList <Vertex> Result = new ArrayList<Vertex>();
 		Vertex x =  new Vertex();
 		int n =0;
 		
@@ -222,10 +222,59 @@ public class Graph {
 			}
 		}
     	   if(x.visited==false){ 
-    		   DFSUtil(n,visitor);
+    		   DFSUtil(n,visitor, Result);
   
       }
+    	   for(int i = Result.size()-1 ; i>=0 ; i--){
+    		   visitor.visit(Result.get(i));
+    	   }
     	   System.out.println("Result" + " : " + visitor.getResult());   
+	}
+	public void BFSUtil(int x, ArrayList <Vertex> Result, Visitor visitor) 
+    { 
+		adj.get(x).get(0).visited=true;  
+		for(int i=0; i<adj.get(x).size(); i++){
+			if(adj.get(x).get(i).visited==false)
+			Result.add(adj.get(x).get(i));
+			for(int z= 0; z<edges.size(); z++){
+				if(adj.get(x).get(0)._strUniqueID.toString().equals(edges.get(z).Start._strUniqueID.toString())
+						&& adj.get(x).get(i)._strUniqueID.toString().equals(edges.get(z).End._strUniqueID.toString())		
+						){
+					visitor.visit(edges.get(z));
+				}
+			}
+		}
+		for(int i=0; i <Result.size();i++){
+			if(Result.get(i).visited==false){
+				for(int j = 0 ; j<adj.size(); j++){
+	    			if(Result.get(i)._strUniqueID==adj.get(j).get(0)._strUniqueID)	    		
+	    				BFSUtil(j,Result,visitor);
+	    		}
+			}
+		}
+    } 
+	public void Bfs(StringBuffer strStartVertexUniqueID, GradingVisitor visitor) throws GraphException {
+		
+		ArrayList <Vertex> Result = new ArrayList<Vertex>();
+		Vertex x =  new Vertex();
+		int n =0;
+		
+		for(n=0 ; n <vertices.size() ; n++){
+			if(vertices.get(n)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){			
+			x=vertices.get(n) ;
+			break;
+			}
+		}
+    	   if(x.visited==false){ 
+    		   Result.add(vertices.get(n));
+    		   BFSUtil(n, Result, visitor);
+    	   }
+    	   for(int i = 0 ; i<Result.size() ; i++){
+   		   visitor.visit(Result.get(i));
+    	   }
+   	   System.out.println("Result" + " : " + visitor.getResult()); 
+  
+
 	}
     public String toString(){
         String result = "";
@@ -250,20 +299,23 @@ public class Graph {
 		G.insertVertex(new StringBuffer("2"), new StringBuffer("2"),2, 0);
 		G.insertVertex(new StringBuffer("3"), new StringBuffer("2"),3, 0);
 		G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),3, 0);
+		G.insertVertex(new StringBuffer("5"), new StringBuffer("1"),1, 0);
+		G.insertVertex(new StringBuffer("6"), new StringBuffer("1"),1, 0);
+	//	G.insertVertex(new StringBuffer("7"), new StringBuffer("1"),1, 0);
 
 
-		G.insertEdge(new StringBuffer("0"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
+
 		G.insertEdge(new StringBuffer("0"), new StringBuffer("1"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("0"), new StringBuffer("4"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("3"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("3"), new StringBuffer("1"), new StringBuffer("1"), new StringBuffer("1"), 1);
-
-		//G.insertEdge(new StringBuffer("1"), new StringBuffer("3"), new StringBuffer("1"), new StringBuffer("1"), 1);
-	//	G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
-
+		G.insertEdge(new StringBuffer("0"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("1"), new StringBuffer("3"), new StringBuffer("3"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("1"), new StringBuffer("4"), new StringBuffer("4"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("2"), new StringBuffer("5"), new StringBuffer("5"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("2"), new StringBuffer("6"), new StringBuffer("6"), new StringBuffer("1"), 1);
+		//G.insertEdge(new StringBuffer("0"), new StringBuffer("7"), new StringBuffer("7"), new StringBuffer("1"), 1);
+		
 		//G.removeEdge(new StringBuffer("1"));
 		GradingVisitor visitor =  new GradingVisitor();
-		G.dfs(new StringBuffer("0") , visitor);
+		G.Bfs(new StringBuffer("0") , visitor);
 		System.out.println(G);
 		//System.out.println(G.getLibraryVersion());
 

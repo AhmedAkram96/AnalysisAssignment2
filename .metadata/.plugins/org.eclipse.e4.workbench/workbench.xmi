@@ -93,10 +93,10 @@
                 <children xsi:type="advanced:Placeholder" xmi:id="_3rbc_vGUEeiQD-SKwXs4Rw" elementId="org.eclipse.egit.ui.RepositoriesView" toBeRendered="false" ref="_3rbc7fGUEeiQD-SKwXs4Rw"/>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_3rbc__GUEeiQD-SKwXs4Rw" containerData="7500" selectedElement="_3rbdAPGUEeiQD-SKwXs4Rw">
-              <children xsi:type="basic:PartSashContainer" xmi:id="_3rbdAPGUEeiQD-SKwXs4Rw" containerData="7500" selectedElement="_3rbdAfGUEeiQD-SKwXs4Rw" horizontal="true">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_3rbc__GUEeiQD-SKwXs4Rw" containerData="7500" selectedElement="_3rbdCfGUEeiQD-SKwXs4Rw">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_3rbdAPGUEeiQD-SKwXs4Rw" containerData="6509" selectedElement="_3rbdAfGUEeiQD-SKwXs4Rw" horizontal="true">
                 <children xsi:type="advanced:Placeholder" xmi:id="_3rbdAfGUEeiQD-SKwXs4Rw" elementId="org.eclipse.ui.editorss" containerData="7500" ref="_3rRr4PGUEeiQD-SKwXs4Rw"/>
-                <children xsi:type="basic:PartSashContainer" xmi:id="_3rbdAvGUEeiQD-SKwXs4Rw" containerData="2500">
+                <children xsi:type="basic:PartSashContainer" xmi:id="_3rbdAvGUEeiQD-SKwXs4Rw" containerData="2500" selectedElement="_3rbdBfGUEeiQD-SKwXs4Rw">
                   <children xsi:type="basic:PartStack" xmi:id="_3rbdA_GUEeiQD-SKwXs4Rw" elementId="org.eclipse.mylyn.tasks.ui.views.tasksMStack" containerData="5000" selectedElement="_3rbdBPGUEeiQD-SKwXs4Rw">
                     <tags>newtablook</tags>
                     <children xsi:type="advanced:Placeholder" xmi:id="_3rbdBPGUEeiQD-SKwXs4Rw" elementId="org.eclipse.mylyn.tasks.ui.views.tasks" ref="_3rbc7_GUEeiQD-SKwXs4Rw"/>
@@ -110,7 +110,7 @@
                   </children>
                 </children>
               </children>
-              <children xsi:type="basic:PartStack" xmi:id="_3rbdCfGUEeiQD-SKwXs4Rw" elementId="bottom" containerData="2500" selectedElement="_3rbdDvGUEeiQD-SKwXs4Rw">
+              <children xsi:type="basic:PartStack" xmi:id="_3rbdCfGUEeiQD-SKwXs4Rw" elementId="bottom" containerData="3491" selectedElement="_3rbdDvGUEeiQD-SKwXs4Rw">
                 <tags>newtablook</tags>
                 <tags>org.eclipse.e4.secondaryDataStack</tags>
                 <children xsi:type="advanced:Placeholder" xmi:id="_3rbdCvGUEeiQD-SKwXs4Rw" elementId="org.eclipse.ui.views.ProblemView" ref="_3rbc4_GUEeiQD-SKwXs4Rw"/>
@@ -161,7 +161,7 @@
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_Kh-PoPGWEeiIEcpLOKBl1Q" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Graph.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Graph.java&quot; partName=&quot;Graph.java&quot; title=&quot;Graph.java&quot; tooltip=&quot;AnalysisAssignment/src/GraphLib/Graph.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AnalysisAssignment/src/GraphLib/Graph.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;7666&quot; selectionTopPixel=&quot;4054&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Graph.java&quot; partName=&quot;Graph.java&quot; title=&quot;Graph.java&quot; tooltip=&quot;AnalysisAssignment/src/GraphLib/Graph.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AnalysisAssignment/src/GraphLib/Graph.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;10419&quot; selectionTopPixel=&quot;5820&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
@@ -199,7 +199,7 @@
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_cEYakPJTEei619DJrG-M9Q" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="GradingVisitor.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;GradingVisitor.java&quot; partName=&quot;GradingVisitor.java&quot; title=&quot;GradingVisitor.java&quot; tooltip=&quot;AnalysisAssignment/src/GraphLib/GradingVisitor.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AnalysisAssignment/src/GraphLib/GradingVisitor.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;9&quot; selectionOffset=&quot;306&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;GradingVisitor.java&quot; partName=&quot;GradingVisitor.java&quot; title=&quot;GradingVisitor.java&quot; tooltip=&quot;AnalysisAssignment/src/GraphLib/GradingVisitor.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AnalysisAssignment/src/GraphLib/GradingVisitor.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;335&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
@@ -319,7 +319,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_3iSvAvGUEeiQD-SKwXs4Rw" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_yQ2ah_MIEeiWxPCV6ccvfg" elementId="print" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" enabled="false" command="_2uG7dPGUEeiQD-SKwXs4Rw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_14rat_SmEeilnrUXqxZUtg" elementId="print" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" enabled="false" command="_2uG7dPGUEeiQD-SKwXs4Rw"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_3iSvA_GUEeiQD-SKwXs4Rw" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -343,7 +343,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_3iSvB_GUEeiQD-SKwXs4Rw" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_yQ2akfMIEeiWxPCV6ccvfg" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_2uG7KfGUEeiQD-SKwXs4Rw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_14-VqfSmEeilnrUXqxZUtg" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_2uG7KfGUEeiQD-SKwXs4Rw"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_3iSvCPGUEeiQD-SKwXs4Rw" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
