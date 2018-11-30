@@ -10,7 +10,7 @@ public class Graph {
 	protected ArrayList<ArrayList<Vertex>> adj = new ArrayList<>(); //new
 	protected static int i =0;  		//new
 	protected static boolean FoundPath = false;
-	protected ArrayList<Integer> Traversal = new  ArrayList<>();           
+	protected ArrayList<String> Traversal = new  ArrayList<>();           
 	public Graph(){
 		this.adj = new ArrayList<>();
 	}
@@ -36,7 +36,7 @@ public class Graph {
 
 	}
 
-	
+
 	// inserts an edge between 2 specified vertices
 	public void insertEdge(StringBuffer strVertex1UniqueID,
 			StringBuffer strVertex2UniqueID,
@@ -89,9 +89,9 @@ public class Graph {
 			if(adj.get(i).get(0)._strUniqueID.toString().equals(strVertexUniqueID.toString())) {
 				adj.remove(i);
 			}
-				
-			}
-		
+
+		}
+
 	}
 
 	// removes an edge from the graph 
@@ -104,7 +104,7 @@ public class Graph {
 				TempForEnd = edges.get(i).End._strUniqueID;
 				TempForStart = edges.get(i).Start._strUniqueID;
 				edges.remove(i);
-				
+
 			}
 		}
 		for(int loopAllAdj = 0;loopAllAdj<adj.size();loopAllAdj++) {
@@ -186,117 +186,158 @@ public class Graph {
 		return vertex;
 	}
 	public void DFSUtil(int x, Visitor visitor) 
-    { 
+	{ 
 		adj.get(x).get(0).visited=true;  //assign the vertex as visited
 		visitor.visit(adj.get(x).get(0)); //visit the vertex
 		System.out.println(adj.get(x).get(0)._strUniqueID);
-    for(int k =1 ; k < adj.get(x).size(); k++){
-    	if(adj.get(x).get(k).visited==false)
-    	{
-    		//assign the edge as visited
-    		for(int z= 0; z<edges.size(); z++){
-    			if(adj.get(x).get(0)._strUniqueID==edges.get(z).Start._strUniqueID
-    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).End._strUniqueID		
-    			||
-    			adj.get(x).get(0)._strUniqueID==edges.get(z).End._strUniqueID
-    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).Start._strUniqueID){
-    				visitor.visit(edges.get(z));
-    			}
-    		}
-    		for(int j = 0 ; j<adj.size(); j++){
-    			if(adj.get(x).get(k)._strUniqueID.toString().equals(adj.get(j).get(0)._strUniqueID.toString()))	    		
-    				DFSUtil(j,visitor);
-    		}
-    	}
-    }
-        } 
-	public void dfs(StringBuffer strStartVertexUniqueID, GradingVisitor visitor) throws GraphException {
-	
-    
-		Vertex x =  new Vertex();
-		int n =0;
-		
-		for(n=0 ; n <vertices.size() ; n++){
-			if(vertices.get(n)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){			
-			x=vertices.get(n) ;
-			break;
+		for(int k =1 ; k < adj.get(x).size(); k++){
+			if(adj.get(x).get(k).visited==false)
+			{
+				//assign the edge as visited
+				for(int z= 0; z<edges.size(); z++){
+					if(adj.get(x).get(0)._strUniqueID.toString().equals(edges.get(z).Start._strUniqueID.toString())
+							&& adj.get(x).get(k)._strUniqueID.toString().equals(edges.get(z).End._strUniqueID.toString())		
+							||
+							adj.get(x).get(0)._strUniqueID.toString().equals(edges.get(z).End._strUniqueID.toString())
+							&& adj.get(x).get(k)._strUniqueID.toString().equals(edges.get(z).Start._strUniqueID.toString())){
+						visitor.visit(edges.get(z));
+					}
+				}
+				for(int j = 0 ; j<adj.size(); j++){
+					if(adj.get(x).get(k)._strUniqueID.toString().equals(adj.get(j).get(0)._strUniqueID.toString()))	    		
+						DFSUtil(j,visitor);
+				}
 			}
 		}
-    	   if(x.visited==false){ 
-    		   DFSUtil(n,visitor);
-  
-      }
-    	   for(int i =0;i<vertices.size();i++){
-    		   vertices.get(i).visited = false;
-    	   }
-    	   System.out.println("Result" + " : " + visitor.getResult());   
+	} 
+	public void dfs(StringBuffer strStartVertexUniqueID, GradingVisitor visitor) throws GraphException {
+
+
+		Vertex x =  new Vertex();
+		int n =0;
+
+		for(n=0 ; n <vertices.size() ; n++){
+			if(vertices.get(n)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){			
+				x=vertices.get(n) ;
+				break;
+			}
+		}
+		if(x.visited==false){ 
+			DFSUtil(n,visitor);
+
+		}
+		for(int i =0;i<vertices.size();i++){
+			vertices.get(i).visited = false;
+		}
+		System.out.println("Result" + " : " + visitor.getResult());   
 	}
 	// returns a path between start vertex and end vertex // if exists using dfs.
+
+
 	public Vector<PathSegment> pathDFS(
-	String strStartVertexUniqueID, String strEndVertexUniqueID)
-	throws GraphException{
+			String strStartVertexUniqueID, String strEndVertexUniqueID)
+					throws GraphException{
 		Vertex x =  new Vertex();
 		int n =0;
-		
+		Vector<PathSegment> res = new Vector<>();
 		for(n=0 ; n <vertices.size() ; n++){
 			if(vertices.get(n)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){			
-			x=vertices.get(n) ;
-			break;
+				x=vertices.get(n) ;
+				break;
 			}
 		}
-    	   if(x.visited==false){ 
-    		   PathDFSUtil(n, strEndVertexUniqueID);
-  
-      }
-    	   for(int i =0;i<vertices.size();i++){
-    		   vertices.get(i).visited = false;
-    	   }		
-		return null;
+		if(x.visited==false){ 
+			PathDFSUtil(n, strEndVertexUniqueID,res);
+
+		}
+		for(int i =0;i<vertices.size();i++){
+			vertices.get(i).visited = false;
+		}		
+		return res;
 	}
-	public void PathDFSUtil(int x,String strEndVertexUniqueID) 
-    { 
-		Traversal.add(x);
+	public void PathDFSUtil(int x,String strEndVertexUniqueID,Vector<PathSegment> res) 
+	{ 
+		Traversal.add(vertices.get(x)._strUniqueID.toString());
 		//System.out.println(adj.get(x).get(0)._strUniqueID.toString());
 		if(adj.get(x).get(0)._strUniqueID.toString().equals(strEndVertexUniqueID.toString())){
 			FoundPath = true;
-			for(int i =0;i<Traversal.size();i++){
-				System.out.println(Traversal.get(i));
+			for(int i =0;i<Traversal.size()-1;i++){
+				PathSegment toAdd = new  PathSegment();
+				//System.out.println(Traversal.get(i));
+				String start = Traversal.get(i).toString();
+				String end = Traversal.get(i+1).toString();
+				for(int j = 0;j<edges.size();j++){
+					if(edges.get(j).Start._strUniqueID.toString().equals(start)
+							&& edges.get(j).End._strUniqueID.toString().equals(end) ){
+						
+						toAdd._edge = edges.get(j);
+						toAdd.Ma3koosa = 0;
+						
+						break;
+					}
+					if(edges.get(j).End._strUniqueID.toString().equals(start)
+							&& edges.get(j).Start._strUniqueID.toString().equals(end) ){
+						
+						toAdd._edge = edges.get(j);
+						toAdd.Ma3koosa = 1;
+						
+						break;
+					}
+						
+				}
+				for(int j = 0;j<vertices.size();j++){
+					if(vertices.get(j)._strUniqueID.toString().equals(start)){
+						toAdd._vertex = vertices.get(j);
+						//System.out.println(vertices.get(j)._strUniqueID.toString());
+						
+					}
+						
+				}
+				res.addElement(toAdd);
 			}
 			return;
 		}
 		adj.get(x).get(0).visited=true;  //assign the vertex as visited
-    for(int k =1 ; k < adj.get(x).size(); k++){
-    	if(adj.get(x).get(k).visited==false)
-    	{
-    		for(int z= 0; z<edges.size(); z++){
-    			if(adj.get(x).get(0)._strUniqueID==edges.get(z).Start._strUniqueID
-    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).End._strUniqueID		
-    			||
-    			adj.get(x).get(0)._strUniqueID==edges.get(z).End._strUniqueID
-    			&& adj.get(x).get(k)._strUniqueID==edges.get(z).Start._strUniqueID){
-    			}
-    		}
-    		for(int j = 0 ; j<adj.size(); j++){
-    			if(adj.get(x).get(k)._strUniqueID.toString().equals(adj.get(j).get(0)._strUniqueID.toString()))	    		
-    				if(!FoundPath)
-    				PathDFSUtil(j,strEndVertexUniqueID);
-    		}
-    	}
-    }
-    Traversal.remove(Traversal.size()-1);
-    
-        } 
-    public String toString(){
-        String result = "";
-        for(int i = 0; i < adj.size(); i++){
-        	result +="[";
-            for(int j = 0; j < adj.get(i).size(); j++){
-                result += adj.get(i).get(j)._strUniqueID + ",";
-            }
-            result += "]\n";
-        }
-        return result;
-    }
+		for(int k =1 ; k < adj.get(x).size(); k++){
+			if(adj.get(x).get(k).visited==false)
+			{
+				for(int z= 0; z<edges.size(); z++){
+					if(adj.get(x).get(0)._strUniqueID==edges.get(z).Start._strUniqueID
+							&& adj.get(x).get(k)._strUniqueID==edges.get(z).End._strUniqueID		
+							||
+							adj.get(x).get(0)._strUniqueID==edges.get(z).End._strUniqueID
+							&& adj.get(x).get(k)._strUniqueID==edges.get(z).Start._strUniqueID){
+					}
+				}
+				for(int j = 0 ; j<adj.size(); j++){
+					if(adj.get(x).get(k)._strUniqueID.toString().equals(adj.get(j).get(0)._strUniqueID.toString()))	    		
+						if(!FoundPath)
+							PathDFSUtil(j,strEndVertexUniqueID,res);
+				}
+			}
+		}
+		Traversal.remove(Traversal.size()-1);
+
+	} 
+	public String toString(){
+		String result = "";
+		for(int i = 0; i < adj.size(); i++){
+			result +="[";
+			for(int j = 0; j < adj.get(i).size(); j++){
+				result += adj.get(i).get(j)._strUniqueID + ",";
+			}
+			result += "]\n";
+		}
+		return result;
+	}
+	
+	public String PrintVectorOfPaths(Vector<PathSegment> res){
+		String ans = "";
+		for(int i =0;i<res.size();i++){
+			ans +=res.get(i).toString();
+		}
+		return ans;
+	}
 
 	public static void main(String[] args) throws GraphException {
 
@@ -304,26 +345,29 @@ public class Graph {
 
 		Graph G = new Graph();
 
-		G.insertVertex(new StringBuffer("0"), new StringBuffer("1"),1, 0);
-		G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),1, 0);
-		G.insertVertex(new StringBuffer("2"), new StringBuffer("2"),2, 0);
-		G.insertVertex(new StringBuffer("3"), new StringBuffer("2"),3, 0);
-		G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),3, 0);
+		G.insertVertex(new StringBuffer("A"), new StringBuffer("1"),1, 0);
+		G.insertVertex(new StringBuffer("B"), new StringBuffer("1"),1, 0);
+		G.insertVertex(new StringBuffer("C"), new StringBuffer("2"),2, 0);
+		G.insertVertex(new StringBuffer("D"), new StringBuffer("2"),3, 0);
+		G.insertVertex(new StringBuffer("E"), new StringBuffer("2"),3, 0);
 
 
-		G.insertEdge(new StringBuffer("0"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("0"), new StringBuffer("1"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("0"), new StringBuffer("4"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("3"), new StringBuffer("2"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("3"), new StringBuffer("1"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("A"), new StringBuffer("B"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("B"), new StringBuffer("D"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("C"), new StringBuffer("D"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("A"), new StringBuffer("E"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		//G.insertEdge(new StringBuffer("2"), new StringBuffer("5"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		//G.insertEdge(new StringBuffer("4"), new StringBuffer("5"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		//G.insertEdge(new StringBuffer("3"), new StringBuffer("5"), new StringBuffer("1"), new StringBuffer("1"), 1);
 
 		//G.insertEdge(new StringBuffer("1"), new StringBuffer("3"), new StringBuffer("1"), new StringBuffer("1"), 1);
-	//	G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
+		//	G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
 
 		//G.removeEdge(new StringBuffer("1"));
 		GradingVisitor visitor =  new GradingVisitor();
 		//G.dfs(new StringBuffer("0") , visitor);
-		G.pathDFS("0","4");
+		Vector<PathSegment> T = G.pathDFS("A","D");
+		System.out.println(T);
 		//System.out.println(G);
 		//System.out.println(G.getLibraryVersion());
 
