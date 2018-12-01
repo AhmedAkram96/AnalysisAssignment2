@@ -1,6 +1,7 @@
 package GraphLib;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Vector;
 
 public class Graph {
@@ -385,19 +386,139 @@ public class Graph {
 		return ans;
 	}
 
+	
+	
+	
+	public Distance closestPair() throws GraphException 
+	{
+		
+		
+		return null;
+	}
+	
+	private float EuclideanDist (float x1 , float y1, float x2, float y2){
+		//System.out.println("x1 : " + " " + x1);
+		//System.out.println("x2 : " + " " + x2);
+
+		//System.out.println((int) Math.sqrt( Math.pow((x1-x2),2) + 
+		//		Math.pow((y1-y2),2)));
+		return (int) Math.sqrt( Math.pow((x1-x2),2) + 
+				Math.pow((y1-y2),2)); 
+	}
+	private Distance MinimumDistance(Distance A,Distance B){
+		if(A.EcdDistance<B.EcdDistance)
+			return A;
+			else
+			return B;
+	}
+	private ArrayList<Vertex> Splitter(ArrayList<Vertex> input,int start,int end){
+		ArrayList<Vertex>res = new ArrayList<>();
+			for(int i =start;i<end;i++){
+				res.add(input.get(i));
+			}
+	
+		for(int i =0;i<res.size();i++){
+			System.out.print(res.get(i)._nX + " , ");
+		}
+		System.out.println("\n");
+		return res;
+}
+	private Distance closestPairHelper(ArrayList<Vertex> Graph){
+		
+		if(Graph.size()==2){
+			Distance D =new Distance();
+			D.V1 = Graph.get(0);
+			D.V2 = Graph.get(1);
+			D.EcdDistance = EuclideanDist(Graph.get(0)._nX, Graph.get(0)._nY, Graph.get(1)._nX
+					, Graph.get(1)._nY);
+			return D;
+		}
+
+		else if(Graph.size()==3){
+			Distance D =new Distance();
+			D.V1 = Graph.get(0);
+			D.V2 = Graph.get(1);
+			D.EcdDistance = EuclideanDist(Graph.get(0)._nX, Graph.get(0)._nY, Graph.get(1)._nX
+					, Graph.get(1)._nY);
+			Distance D1 =new Distance();
+			D1.V1 = Graph.get(0);
+			D1.V2 = Graph.get(2);
+			D1.EcdDistance = EuclideanDist(Graph.get(0)._nX, Graph.get(0)._nY, Graph.get(2)._nX
+					, Graph.get(2)._nY);
+			Distance D2 =new Distance();
+			D2.V1 = Graph.get(1);
+			D2.V2 = Graph.get(2);
+			D2.EcdDistance = EuclideanDist(Graph.get(1)._nX, Graph.get(1)._nY, Graph.get(2)._nX
+					, Graph.get(2)._nY);
+			
+			
+		if(Float.min(D2.EcdDistance,D1.EcdDistance)< D.EcdDistance){
+				if(D2.EcdDistance<D1.EcdDistance)
+				return D2;
+				else
+				return D1;
+		}
+		else
+				return D;
+			
+			
+		}
+		
+		for(int i=0; i<Graph.size()-1; i++){
+			for(int j = 0;j<Graph.size()-i-1;j++){
+				 if (Graph.get(j)._nX > Graph.get(j+1)._nX) 
+	                { 
+	                    // swap temp and arr[i] 
+	                    Vertex temp = Graph.get(j); 
+	                    Graph.set(j, Graph.get(j+1)); 
+	                    Graph.set(j+1,temp);
+	                } 
+			}
+		}
+		int middle=0;
+		if(Graph.size()%2==0){
+			middle = Graph.size()/2 -1;
+		}
+		else
+			middle =Graph.size()/2;
+		
+		Vertex midPoint = Graph.get(middle);
+		ArrayList<Vertex> Left = Splitter(Graph,0,middle+1);
+		ArrayList<Vertex> Right =Splitter(Graph,middle+1,Graph.size());
+		Distance DL = closestPairHelper(Left);
+		Distance DR = closestPairHelper(Right);
+		Distance d = MinimumDistance(DL, DR);
+		
+		ArrayList<Vertex> MiddleArea = new ArrayList<>();
+		for(int i = 0;i<this.vertices.size();i++){
+			if(Math.abs(this.vertices.get(i)._nX - Graph.get(middle)._nX)< d.EcdDistance){
+				MiddleArea.add(this.vertices.get(i));
+			}
+		}
+		
+		
+		
+		return d;
+		
+	}
+	
+	
+	
+	
+	
 	public static void main(String[] args) throws GraphException {
 
 
 
 		Graph G = new Graph();
 
-		G.insertVertex(new StringBuffer("0"), new StringBuffer("1"),1, 0);
-		G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),1, 0);
-		G.insertVertex(new StringBuffer("2"), new StringBuffer("2"),2, 0);
-		G.insertVertex(new StringBuffer("3"), new StringBuffer("2"),3, 0);
-		G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),3, 0);
-		G.insertVertex(new StringBuffer("5"), new StringBuffer("1"),1, 0);
-		G.insertVertex(new StringBuffer("6"), new StringBuffer("1"),1, 0);
+		G.insertVertex(new StringBuffer("0"), new StringBuffer("1"),5, 0);
+		G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),13, 0);
+		G.insertVertex(new StringBuffer("2"), new StringBuffer("2"),-5, 0);
+		G.insertVertex(new StringBuffer("3"), new StringBuffer("2"),59, 0);
+		G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),-917, 0);
+		G.insertVertex(new StringBuffer("5"), new StringBuffer("1"),-99, 0);
+		G.insertVertex(new StringBuffer("6"), new StringBuffer("1"),121, 0);
 	//	G.insertVertex(new StringBuffer("7"), new StringBuffer("1"),1, 0);
 
 
@@ -415,9 +536,9 @@ public class Graph {
 		//G.Bfs(new StringBuffer("0") , visitor);
 		Vector<PathSegment> T = G.pathDFS("0", "5");
 		System.out.println(T);
-
 		//System.out.println(G.getLibraryVersion());
-
+		Distance D = G.closestPairHelper(G.vertices);
+		System.out.println(D.EcdDistance);
 	}
 }
 
