@@ -8,6 +8,7 @@ public class Vertex {
 	 										//map. Assume 0,0 is
 	 										//bottom left
 	 boolean visited=false;
+	 boolean processed = false;
 	 public StringBuffer getUniqueID( ){
 		 return _strUniqueID;
 		  }

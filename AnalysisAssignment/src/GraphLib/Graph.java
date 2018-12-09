@@ -169,7 +169,7 @@ public class Graph {
 		return Endpoints;
 	}
 
-	// returns the vertex opposite of another vertex [1 pt]
+	// returns the vertex opposite of another vertex 
 	public Vertex opposite(StringBuffer strVertexUniqueID,
 			StringBuffer strEdgeUniqueID) throws
 	GraphException {
@@ -228,17 +228,27 @@ public class Graph {
     		   DFSUtil(n,visitor, Result);
   
       }
-    	   for(int i = Result.size()-1 ; i>=0 ; i--){
+    	   for(int i = 0 ; i<Result.size() ; i++){
     		   visitor.visit(Result.get(i));
     	   }
     	   System.out.println("Result" + " : " + visitor.getResult());   
+    	   
+    	   for(int i =0;i<vertices.size();i++){
+    			vertices.get(i).visited = false;
+    			vertices.get(i).processed = false;
+
+    		}
+    	  
 	}
 	public void BFSUtil(int x, ArrayList <Vertex> Result, Visitor visitor) 
     { 
+		ArrayList <Vertex> visited = new ArrayList<Vertex>();
 		adj.get(x).get(0).visited=true;  
-		for(int i=0; i<adj.get(x).size(); i++){
-			if(adj.get(x).get(i).visited==false)
+		for(int i=1; i<adj.get(x).size(); i++){
+			if(adj.get(x).get(i).visited==false && !(adj.get(x).get(i).processed)){
 			Result.add(adj.get(x).get(i));
+			adj.get(x).get(i).processed=true;
+			}
 			for(int z= 0; z<edges.size(); z++){
 				if(adj.get(x).get(0)._strUniqueID.toString().equals(edges.get(z).Start._strUniqueID.toString())
 						&& adj.get(x).get(i)._strUniqueID.toString().equals(edges.get(z).End._strUniqueID.toString())		
@@ -247,6 +257,11 @@ public class Graph {
 				}
 			}
 		}
+		System.out.print("Result : " + "   ");
+		for(int i=0; i <Result.size();i++){
+			System.out.print(Result.get(i)._strUniqueID);
+		}
+		System.out.println();
 		for(int i=0; i <Result.size();i++){
 			if(Result.get(i).visited==false){
 				for(int j = 0 ; j<adj.size(); j++){
@@ -278,6 +293,8 @@ public class Graph {
    	   System.out.println("Result" + " : " + visitor.getResult()); 
    	for(int i =0;i<vertices.size();i++){
 		vertices.get(i).visited = false;
+		vertices.get(i).processed = false;
+
 	}
   
 
@@ -300,7 +317,10 @@ public class Graph {
 		}
 		for(int i =0;i<vertices.size();i++){
 			vertices.get(i).visited = false;
-		}		
+			vertices.get(i).processed = false;
+
+		}
+	  	
 		return res;
 	}
 	public void PathDFSUtil(int x,String strEndVertexUniqueID,Vector<PathSegment> res) 
@@ -389,11 +409,14 @@ public class Graph {
 	
 	
 	
-	public Distance closestPair() throws GraphException 
+	public Vertex[] closestPair() throws GraphException 
 	{
+		Vertex[] res = new Vertex[2];
+		Distance D = closestPairHelper(this.vertices);
+		res[0] = D.V1;
+		res[1] =D.V2;
+		return res;
 		
-		
-		return null;
 	}
 	
 	private float EuclideanDist (float x1 , float y1, float x2, float y2){
@@ -417,12 +440,41 @@ public class Graph {
 				res.add(input.get(i));
 			}
 	
-		for(int i =0;i<res.size();i++){
-			System.out.print(res.get(i)._nX + " , ");
-		}
-		System.out.println("\n");
+//		for(int i =0;i<res.size();i++){
+//			System.out.print(res.get(i)._nX + " , ");
+//		}
+//		System.out.println("\n");
 		return res;
 }
+	private Distance MiddleMinDist(ArrayList<Vertex> Graph , Distance d){
+		float min = d.EcdDistance;
+		Distance minDist = d;	
+		for(int i=0; i<Graph.size()-1; i++){
+			for(int j = 0;j<Graph.size()-i-1;j++){
+				 if (Graph.get(j)._nY > Graph.get(j+1)._nY) 
+	                { 
+	                    // swap temp and arr[i] 
+	                    Vertex temp = Graph.get(j); 
+	                    Graph.set(j, Graph.get(j+1)); 
+	                    Graph.set(j+1,temp);
+	                } 
+			}
+		}
+		for(int i=0; i<Graph.size()-1; i++){
+			for(int j = i+1;j<Graph.size() && Graph.get(i)._nY - Graph.get(j)._nY < min;j++){
+				 if (EuclideanDist(Graph.get(i)._nX,Graph.get(i)._nY, Graph.get(j)._nX, Graph.get(j)._nY)< min) 
+	                { 
+				//	System.out.println("DDDDDD");
+					  min=EuclideanDist(Graph.get(i)._nX,Graph.get(i)._nY, Graph.get(j)._nX, Graph.get(j)._nY);
+	                  minDist.V1= Graph.get(i);
+	                  minDist.V2= Graph.get(j);
+	                  minDist.EcdDistance=min;
+	                } 
+			}
+		}
+		return minDist;
+	}
+	
 	private Distance closestPairHelper(ArrayList<Vertex> Graph){
 		
 		if(Graph.size()==2){
@@ -495,10 +547,13 @@ public class Graph {
 				MiddleArea.add(this.vertices.get(i));
 			}
 		}
-		
-		
-		
-		return d;
+	//	System.out.println(d.EcdDistance);
+//		for(int i =0 ; i <MiddleArea.size(); i++){
+//			System.out.print(MiddleArea.get(i)._strUniqueID + ",");
+
+		//}
+	//	System.out.println();
+		return MiddleMinDist(MiddleArea, d);
 		
 	}
 	
@@ -512,33 +567,43 @@ public class Graph {
 
 		Graph G = new Graph();
 
-		G.insertVertex(new StringBuffer("0"), new StringBuffer("1"),5, 0);
-		G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),13, 0);
-		G.insertVertex(new StringBuffer("2"), new StringBuffer("2"),-5, 0);
-		G.insertVertex(new StringBuffer("3"), new StringBuffer("2"),59, 0);
-		G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),-917, 0);
-		G.insertVertex(new StringBuffer("5"), new StringBuffer("1"),-99, 0);
-		G.insertVertex(new StringBuffer("6"), new StringBuffer("1"),121, 0);
+	//	G.insertVertex(new StringBuffer("0"), new StringBuffer("1"),5, 2);
+		G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),-99, 9);
+		G.insertVertex(new StringBuffer("2"), new StringBuffer("2"),-5, 1);
+		G.insertVertex(new StringBuffer("3"), new StringBuffer("2"),59, 4);
+		G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),-917, 7);
+		G.insertVertex(new StringBuffer("5"), new StringBuffer("1"),13, 6);
+	//	G.insertVertex(new StringBuffer("6"), new StringBuffer("1"),121, 2);
 	//	G.insertVertex(new StringBuffer("7"), new StringBuffer("1"),1, 0);
 
 
 
-		G.insertEdge(new StringBuffer("0"), new StringBuffer("1"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("0"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("1"), new StringBuffer("3"), new StringBuffer("3"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("1"), new StringBuffer("4"), new StringBuffer("4"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("1"), new StringBuffer("4"), new StringBuffer("1"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("2"), new StringBuffer("3"), new StringBuffer("3"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("2"), new StringBuffer("4"), new StringBuffer("4"), new StringBuffer("1"), 1);
 		G.insertEdge(new StringBuffer("2"), new StringBuffer("5"), new StringBuffer("5"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("2"), new StringBuffer("6"), new StringBuffer("6"), new StringBuffer("1"), 1);
-		//G.insertEdge(new StringBuffer("0"), new StringBuffer("7"), new StringBuffer("7"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("4"), new StringBuffer("5"), new StringBuffer("6"), new StringBuffer("1"), 1);
+		G.insertEdge(new StringBuffer("3"), new StringBuffer("5"), new StringBuffer("7"), new StringBuffer("1"), 1);
 		
 		//G.removeEdge(new StringBuffer("1"));
 		GradingVisitor visitor =  new GradingVisitor();
-		//G.Bfs(new StringBuffer("0") , visitor);
-		Vector<PathSegment> T = G.pathDFS("0", "5");
-		System.out.println(T);
+		//G.dfs(new StringBuffer("1") , visitor);
+		//G.Bfs(new StringBuffer("1") , visitor);
+		//Vector<PathSegment> T = G.pathDFS("1", "5");
+		//System.out.println(T);
 		//System.out.println(G.getLibraryVersion());
-		Distance D = G.closestPairHelper(G.vertices);
-		System.out.println(D.EcdDistance);
+//		Distance x = G.closestPairHelper(G.vertices);
+//		
+//		System.out.println(x.EcdDistance);
+//		System.out.println(x.V1._strUniqueID);
+//		System.out.println(x.V2._strUniqueID);
+//		
+//		Vertex [] d = G.closestPair();
+//		
+//		for(int i =0;i<d.length;i++){
+//			System.out.println(d[i]._strUniqueID.toString() + " , ");
+//		}
 	}
 }
 
