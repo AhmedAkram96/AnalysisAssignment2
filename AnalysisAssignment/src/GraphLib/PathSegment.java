@@ -15,18 +15,25 @@ return _vertex;
 public Edge getEdge( ){
 return _edge;
 }
-public String toString(){
-	String To = "";
-	if(this.Ma3koosa == 0){
-		To= this._edge.End._strUniqueID.toString();
-	}
-	else{
-		To= this._edge.Start._strUniqueID.toString();
-	}
-	
-	String res = "From : " + this._vertex._strUniqueID.toString() + " To : " +To;
-	res += " Edge ID:" + this._edge._strUniqueID.toString();
-	
-	return res;
+//public String toString(){
+//	String To = "";
+//	if(this.Ma3koosa == 0){
+//		To= this._edge.End._strUniqueID.toString();
+//	}
+//	else{
+//		To= this._edge.Start._strUniqueID.toString();
+//	}
+//	
+//	String res = "From : " + this._vertex._strUniqueID.toString() + " To : " +To;
+//	res += " Edge ID:" + this._edge._strUniqueID.toString();
+//	
+//	return res;
+//}
+
+@Override
+public String toString()
+{
+	return getVertex()._strUniqueID.toString() + "";
 }
+
 } 

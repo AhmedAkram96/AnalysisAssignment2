@@ -2,11 +2,13 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="GraphLib.Graph"/>
 <fullyQualifiedTypeName name="GraphLib.Edge"/>
-<fullyQualifiedTypeName name="java.util.Vector"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="GraphLib.Distance"/>
 <fullyQualifiedTypeName name="java.lang.Float"/>
 <fullyQualifiedTypeName name="GraphLib.Vertex"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.Vector"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="GraphLib.PathSegment"/>
 </qualifiedTypeNameHistroy>

@@ -132,7 +132,7 @@ public class Graph {
 			throws GraphException {
 		Vector<Edge> edge= new Vector<Edge>(); ;
 		for(int i =0 ; i <edges.size() ; i++){
-			if(edges.get(i).End._strUniqueID==strVertexUniqueID || edges.get(i).Start._strUniqueID==strVertexUniqueID)
+			if(edges.get(i).End._strUniqueID.toString().equals(strVertexUniqueID.toString()) || edges.get(i).Start._strUniqueID.toString().equals(strVertexUniqueID.toString()))
 				edge.addElement(edges.get(i)) ;
 		}
 		return edge;
@@ -556,8 +556,305 @@ public class Graph {
 		return MiddleMinDist(MiddleArea, d);
 		
 	}
+	public Vector<PathSegment> minSpanningTree()
+			throws GraphException{
+		//ArrayList<Edge> MST = new ArrayList<>();
+		
+
+		int vs = vertices.size();
+		Edge mst[] = new Edge [vs-1];
+		Edge copy[] = new Edge [edges.size()];
+		for (int f=0; f<vs-1; f++) {
+            mst[f] = new Edge(); 
+		}
+		for(int i=0; i< edges.size();i++){
+			copy[i] = edges.get(i);
+		}
+		
+
+		//int y = 0;
+		
+
+		Edge temp ;
+
+	    for (int i = 0; i < copy.length; i++) {
+	        for (int j = 1; j < (copy.length - i); j++) {
+
+	            if (copy[j - 1]._nEdgeCost  > copy[j]._nEdgeCost) {
+	                temp = copy[j - 1];
+	                copy[j - 1] = copy[j];
+	                copy[j] = temp;
+	            }
+
+	        }
+	    }
+	    int i=0;
+	    int e = 0;
+	    int c=0;
+	    boolean add = true;
+	    while(e < vs-1){
+	    	
+	    	if(e < 2){
+	    		mst[e]=copy[i];
+	    		e++;
+
+	    	}
+	    	
+
+	    	else{
+
+            for (int j = 0; j < e; j++) {
+            	
+				if(copy[i].Start._strUniqueID.toString().equals(mst[j].Start._strUniqueID.toString()) || copy[i].Start._strUniqueID.toString().equals(mst[j].End._strUniqueID.toString()) ){
+
+					for (int z = 0; z < e; z++){
+					if(copy[i].End._strUniqueID.toString().equals(mst[z].End._strUniqueID.toString()) || copy[i].End._strUniqueID.toString().equals(mst[z].Start._strUniqueID.toString()) ){
+						add = false;
+							}
+						}
+					}
+				}
+            if(add){
+            	mst[e] = copy[i];
+    
+            	e++;
+            	}
+            
+
+	    	}
+	    	i++;
+	    	
+
+	    	add = true;
+	    	c++;
+	    }
+    	Vector<PathSegment> Res = new Vector<PathSegment>();
+
+	    for(int x=0; x<mst.length ; x++){
+	    	PathSegment tmp = new PathSegment();
+	    	tmp._vertex = null;
+	    	tmp._edge = mst[x];
+	    	Res.add(tmp);
+	    }
+	    for(int size = 0;size<Res.size();size++){
+	    	System.out.println(Res.get(size)._edge._strUniqueID);
+	    }
+	    return Res;
+	}
 	
 	
+	public Vector<Vector<PathSegment>> findShortestPathBF( String strStartVertexUniqueID) throws GraphException  {
+        int V = vertices.size();
+        int E = edges.size(); 
+        int src=-1;
+        int u=0;
+        int v=0;
+        int u1 =0;
+        int v1=0;
+        Vector<Vector<PathSegment>> Res =  new Vector<Vector<PathSegment>>(V);
+
+        for(int i =0;i<V;i++){
+        	Res.add(null);
+        }
+        int dist[] = new int[V]; 
+     for(int i=0; i<V; i++){
+	  if(vertices.get(i)._strUniqueID.toString().equals(strStartVertexUniqueID.toString())){
+		  src=i;
+		  break;
+	  }
+  }
+       
+        for (int i=0; i<V; ++i) {
+            dist[i] = Integer.MAX_VALUE;
+        }
+        	dist[src] = 0;   
+        
+        for (int i=1; i<V; ++i) 
+        { System.out.println("ana el I" +i);
+            for (int j=0; j<E; ++j) 
+            { 
+                Vertex Start = edges.get(j).Start; 
+                Vertex End = edges.get(j).End; 
+                Vertex Start1 =End;
+                Vertex End1= Start;
+                int weight = edges.get(j)._nEdgeCost; 
+                for (int k=0; k<V; k++) {
+                	
+                   if(vertices.get(k)._strUniqueID.toString().equals(Start._strUniqueID.toString())){
+                	  u=k;
+                	  v1=k;
+                   }
+                   if(vertices.get(k)._strUniqueID.toString().equals(End._strUniqueID.toString())){
+                	   v=k;
+                   	   u1=k;        	
+                   }
+                	   
+                	}            
+                if (dist[u]!=Integer.MAX_VALUE && dist[u]+weight<dist[v]) {
+                    dist[v]=dist[u]+weight;
+                    if(Res.get(v)==null && Res.get(u) !=null){
+                        Vector<PathSegment> NewP = new Vector<PathSegment>();
+                  	  for(int k = 0;k<Res.get(u).size();k++){
+                  		  PathSegment tmp = new PathSegment();
+                  		  tmp._vertex = Res.get(u).get(k)._vertex;
+                  		  tmp._edge = Res.get(u).get(k)._edge;
+                  		  NewP.add(tmp);
+                  	  }
+                  	 PathSegment s = new PathSegment();
+                 	  s._vertex = Start;
+                 	  s._edge = edges.get(j);
+                 	 NewP.add(s);
+                	  Res.set(v,NewP);
+                    }
+                    else  if(Res.get(v)==null){
+                      Vector<PathSegment> toAdd = new Vector<PathSegment>(V);
+                      Res.set(v, toAdd);
+                  	  PathSegment s = new PathSegment();
+                  	  s._vertex = Start;
+                  	  s._edge = edges.get(j);
+                  	  Res.get(v).add(s);
+                  	
+                
+                  	  
+                    }
+                    else{
+                  	  Vector<PathSegment> NewP = new Vector<PathSegment>();
+                  	  for(int k = 0;k<Res.get(u).size();k++){
+                  		  PathSegment tmp = new PathSegment();
+                  		  tmp._vertex = Res.get(u).get(k)._vertex;
+                  		  tmp._edge = Res.get(u).get(k)._edge;
+                  		  NewP.add(tmp);
+                  	  }
+                  	  
+                  	  PathSegment s = new PathSegment();
+                  	  s._vertex = Start;
+                  	  s._edge = edges.get(j);
+                  	  NewP.add(s);
+                  	  Res.set(v, NewP);
+
+                    }
+                }
+                if (dist[u1]!=Integer.MAX_VALUE && dist[u1]+weight<dist[v1]) {
+                    dist[v1]=dist[u1]+weight; 
+                    if(Res.get(v1)==null && Res.get(u1) !=null){
+                        Vector<PathSegment> NewP = new Vector<PathSegment>();
+                  	  for(int k = 0;k<Res.get(u1).size();k++){
+                  		  PathSegment tmp = new PathSegment();
+                  		  tmp._vertex = Res.get(u1).get(k)._vertex;
+                  		  tmp._edge = Res.get(u1).get(k)._edge;
+                  		  NewP.add(tmp);
+                  	  }
+                  	 PathSegment s = new PathSegment();
+                 	  s._vertex = Start1;
+                 	  s._edge = edges.get(j);
+                 	  NewP.add(s);
+                 	  Res.set(v1,NewP);
+                    }
+                    else   if(Res.get(v1)==null){
+                	  Vector<PathSegment> toAdd = new Vector<PathSegment>(V);
+                      Res.set(v1, toAdd);
+                	  PathSegment s = new PathSegment();
+                	  s._vertex = Start1;
+
+                	  s._edge = edges.get(j);
+                	  Res.get(v1).add(s);
+                  }
+                  else{
+                	  Vector<PathSegment> NewP = new Vector<PathSegment>();
+                  	  for(int k = 0;k<Res.get(u1).size();k++){
+                  		  PathSegment tmp = new PathSegment();
+                  		  tmp._vertex = Res.get(u1).get(k)._vertex;
+                  		  tmp._edge = Res.get(u1).get(k)._edge;
+                  		  NewP.add(tmp);
+                  	  }
+                  	  
+                  	  PathSegment s = new PathSegment();
+                  	  s._vertex = End;
+                  	  s._edge = edges.get(j);
+                  	  NewP.add(s);
+                  	  Res.set(v1, NewP);
+                  }
+                }  
+            }     
+        } 
+ 
+  return Res;
+         
+    } 
+	
+
+	
+
+	private int getCost(Vector<PathSegment> path)
+	{
+		if (path.isEmpty())
+			return Integer.MAX_VALUE;
+		int output = 0;
+		for (PathSegment pathSegment : path)
+			if(pathSegment._edge==null){
+				output+=0;
+			}
+			else{
+			output += pathSegment.getEdge()._nEdgeCost;
+			}
+		return output;
+	}
+	public Vector<Vector<PathSegment>> findAllShortestPathsFW() throws GraphException
+	{
+		Vector<Vector<Vector<PathSegment>>> output = new Vector<>();
+		int verticesSize = this.vertices.size();
+		for (int i = 0; i < verticesSize; i++)
+		{
+			output.add(new Vector<>());
+			Vector<Edge> adjacent = this.incidentEdges(vertices.get(i)._strUniqueID);
+
+		for (int j = 0; j < verticesSize; j++)
+				if (i == j)
+				{	PathSegment tmp = new PathSegment();
+					tmp._vertex = vertices.get(i);
+					tmp._edge = null;
+					output.get(i).add(new Vector<>());
+					output.get(i).get(j).add(tmp);
+				}
+				else
+				{
+					output.get(i).add(new Vector<>());
+					for (Edge edge : adjacent)
+						if (edge.Start._strUniqueID.toString().equals(vertices.get(j)._strUniqueID.toString()))
+						{
+							PathSegment tmp1 = new PathSegment();
+							tmp1._vertex = vertices.get(i);
+							tmp1._edge = null;
+							PathSegment tmp2 = new PathSegment();
+							tmp2._vertex = vertices.get(j);
+							tmp2._edge = edge;
+							output.get(i).get(j).add(tmp1);
+							output.get(i).get(j).add(tmp2);
+						}
+				}
+		}
+		
+		for (int k = 0; k < verticesSize; k++)
+			for (int i = 0; i < verticesSize; i++)
+				for (int j = 0; j < verticesSize; j++)
+					if (getCost(output.get(i).get(k)) != Integer.MAX_VALUE
+							&& getCost(output.get(k).get(j)) != Integer.MAX_VALUE && getCost(output.get(i).get(k))
+									+ getCost(output.get(k).get(j)) < getCost(output.get(i).get(j)))
+					{
+						output.get(i).get(j).clear();
+						output.get(i).get(j).addAll(output.get(i).get(k));
+						output.get(i).get(j).addAll(output.get(k).get(j));
+						output.get(i).get(j).remove(output.get(i).get(k).size());
+					}
+				
+		Vector<Vector<PathSegment>> out2 = new Vector<>();
+		
+		for (Vector<Vector<PathSegment>> vector : output)
+			for (Vector<PathSegment> vector2 : vector)
+				out2.add(vector2);
+			
+		return out2;
+	}
 	
 	
 	
@@ -567,27 +864,29 @@ public class Graph {
 
 		Graph G = new Graph();
 
-	//	G.insertVertex(new StringBuffer("0"), new StringBuffer("1"),5, 2);
+		G.insertVertex(new StringBuffer("0"), new StringBuffer("1"),5, 2);
 		G.insertVertex(new StringBuffer("1"), new StringBuffer("1"),-99, 9);
 		G.insertVertex(new StringBuffer("2"), new StringBuffer("2"),-5, 1);
 		G.insertVertex(new StringBuffer("3"), new StringBuffer("2"),59, 4);
-		G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),-917, 7);
-		G.insertVertex(new StringBuffer("5"), new StringBuffer("1"),13, 6);
+	//	G.insertVertex(new StringBuffer("4"), new StringBuffer("2"),-917, 7);
+	//	G.insertVertex(new StringBuffer("6"), new StringBuffer("1"),13, 6);
 	//	G.insertVertex(new StringBuffer("6"), new StringBuffer("1"),121, 2);
 	//	G.insertVertex(new StringBuffer("7"), new StringBuffer("1"),1, 0);
 
 
 
-		G.insertEdge(new StringBuffer("1"), new StringBuffer("4"), new StringBuffer("1"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("2"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("2"), new StringBuffer("3"), new StringBuffer("3"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("2"), new StringBuffer("4"), new StringBuffer("4"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("2"), new StringBuffer("5"), new StringBuffer("5"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("4"), new StringBuffer("5"), new StringBuffer("6"), new StringBuffer("1"), 1);
-		G.insertEdge(new StringBuffer("3"), new StringBuffer("5"), new StringBuffer("7"), new StringBuffer("1"), 1);
-		
+		G.insertEdge(new StringBuffer("0"), new StringBuffer("1"), new StringBuffer("1"), new StringBuffer("1"), 5);
+		G.insertEdge(new StringBuffer("0"), new StringBuffer("3"), new StringBuffer("2"), new StringBuffer("1"), 10);
+		G.insertEdge(new StringBuffer("1"), new StringBuffer("2"), new StringBuffer("3"), new StringBuffer("1"), 3);
+		G.insertEdge(new StringBuffer("2"), new StringBuffer("3"), new StringBuffer("4"), new StringBuffer("1"), 1);
+//		G.insertEdge(new StringBuffer("1"), new StringBuffer("4"), new StringBuffer("5"), new StringBuffer("1"), 1);
+//		G.insertEdge(new StringBuffer("2"), new StringBuffer("3"), new StringBuffer("6"), new StringBuffer("1"), 8);
+//		G.insertEdge(new StringBuffer("3"), new StringBuffer("4"), new StringBuffer("7"), new StringBuffer("1"), 6);
+		//G.insertEdge(new StringBuffer("3"), new StringBuffer("2"), new StringBuffer("5"), new StringBuffer("1"), 5);
+	//	G.insertEdge(new StringBuffer("4"), new StringBuffer("3"), new StringBuffer("7"), new StringBuffer("1"), -3);
+
 		//G.removeEdge(new StringBuffer("1"));
-		GradingVisitor visitor =  new GradingVisitor();
+		//GradingVisitor visitor =  new GradingVisitor();
 		//G.dfs(new StringBuffer("1") , visitor);
 		//G.Bfs(new StringBuffer("1") , visitor);
 		//Vector<PathSegment> T = G.pathDFS("1", "5");
@@ -604,6 +903,19 @@ public class Graph {
 //		for(int i =0;i<d.length;i++){
 //			System.out.println(d[i]._strUniqueID.toString() + " , ");
 //		}
+		//G.findShortestPathBF(new StringBuffer("0"));
+		//Vector<Vector<PathSegment>> temp = G.findAllShortestPathsFW();
+		
+		G.minSpanningTree();
+		
+		
+		//for (Vector<PathSegment> vect : G.findAllShortestPathsFW())
+		//	System.out.println(vect.ge);
 	}
+//	 if(Res.get(j).get(0)._edge != null){
+//		   System.out.println("edge" + "  " + Res.get(j).get(0)._edge._strUniqueID.toString());
+//
+//	   }
+//	   System.out.println("vertex" + "  " + Res.get(j).get(0)._vertex._strUniqueID.toString());
 }
 
